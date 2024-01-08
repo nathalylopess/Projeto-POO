@@ -218,7 +218,7 @@ class App:
         self.button_inserir = tk.Button(
                self.root,
                justify= 'center',
-               command=self.Conferir,
+               command=self.inserir,
                text='Inserir',
                fg = "#000000",
                relief='raised',
@@ -361,16 +361,15 @@ class App:
 
         #Validando o entry do nome do evento 
         try:
-            '''
             self.lista = []
             for i in self.label_nome_evento.get():
                 self.lista.append(i)
 
             for i in range(0,len(self.lista)):
                 if self.lista[i].isalpha() != True:
-                    raise Exception("Não pode ter número!")'''
-            if self.label_nome_evento.get().isalpha() == False:
-                raise Exception ("Não pode ter número!")
+                    raise Exception("Não pode ter número!")
+            #if self.label_nome_evento.get().isalpha() == False:
+                #raise Exception ("Não pode ter número!")
 
 
 
@@ -391,16 +390,16 @@ class App:
 
         #Validando o entry da data
         try:
-            """self.lista = []
+            self.lista = []
             for i in self.label_entry_data.get():
                 self.lista.append(i)
 
             if self.lista[2] == '/' and self.lista[5] == '/':
                 for i in range(0,len(self.lista)):
                         if self.lista[i].isalpha() == True:
-                            raise Exception ("Não pode ter letra!")"""
-            if self.label_entry_data.get().isalpha() == True:
-                raise Exception ("Não pode ter letra!")
+                            raise Exception ("Não pode ter letra!")
+            #if self.label_entry_data.get().isalpha() == True:
+                #raise Exception ("Não pode ter letra!")
 
                               
         except Exception:
@@ -419,15 +418,15 @@ class App:
 
         #Validando o entry do tema do evento 
         try:
-            """self.lista = []
+            self.lista = []
             for i in self.label_entry_tema.get():
                 self.lista.append(i)
 
             for i in range(0,len(self.lista)):
                 if self.lista[i].isalpha() != True:
-                        raise Exception ("Não pode ter número!")"""
-            if self.label_entry_tema.get().isalpha() == False:
-                raise Exception ("Não pode ter número!")
+                        raise Exception ("Não pode ter número!")
+            #if self.label_entry_tema.get().isalpha() == False:
+             #   raise Exception ("Não pode ter número!")
 
 
 
@@ -446,15 +445,15 @@ class App:
 
         #Validando o entry do local do evento 
         try:
-            """self.lista = []
+            self.lista = []
             for i in self.label_entry_local.get():
                 self.lista.append(i)
 
             for i in range(0,len(self.lista)):
                 if self.lista[i].isalpha() != True:
-                        raise Exception ("Não pode ter número!")"""
-            if self.label_entry_local.get().isalpha() == False:
-                raise Exception ("Não pode ter número!")
+                        raise Exception ("Não pode ter número!")
+            #if self.label_entry_local.get().isalpha() == False:
+             #   raise Exception ("Não pode ter número!")
 
 
 
@@ -472,6 +471,25 @@ class App:
             print('O Local foi cadastrado!')
                      
         self.deu_certo_ou_nao -= 1
+        if self.deu_certo_ou_nao != 0:
+            self.inserir()
+        elif self.deu_certo_ou_nao == 0:
+
+            self.sql.execute('INSERT INTO tabela (Nome) VALUES (?)', (self.label_nome.get(),))
+            self.sql.execute('INSERT INTO tabela (Email) VALUES (?)', (self.label_email.get(),))
+            self.sql.execute('INSERT INTO tabela (NomedoEvento) VALUES (?)', (self.label_nome_evento.get(),))
+            self.sql.execute('INSERT INTO tabela (DatadoEvento) VALUES (?)', (self.label_entry_data.get(),))
+            self.sql.execute('INSERT INTO tabela (TemadoEvento) VALUES (?)', (self.label_entry_tema.get(),))
+            self.sql.execute('INSERT INTO tabela (LocaldoEvento) VALUES (?)', (self.label_entry_local.get(),))
+
+            self.con.commit()
+
+            self.label_nome.delete(0,END)
+            self.label_email.delete(0,END)
+            self.label_nome_evento.delete(0,END)
+            self.label_entry_data.delete(0,END)
+            self.label_entry_tema.delete(0,END)
+            self.label_entry_local.delete(0,END)
 
                          
     def buscar_id_por_nome(self, nome):
